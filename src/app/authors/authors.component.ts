@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -11,17 +17,15 @@ import { FormsModule } from '@angular/forms';
 export class AuthorsComponent {
   @Input({ required: true }) authors!: string[];
   @Output() selectedAuthor = new EventEmitter<string>();
-  authorSelect?: string;
 
-  // I don't know how to make the page be initialized with the first option
-  // I am 100% sure there is a better way to do this
-  ngOnInit(): void {
+  authorSelect = '';
+
+  ngOnChanges(changes: SimpleChanges): void {
     this.authorSelect = this.authors[0];
     this.selectedAuthor.emit(this.authorSelect);
   }
 
   changeSelectedAuthor(event: Event) {
-    const selectedAuthor = (event.target as HTMLSelectElement).value;
-    this.selectedAuthor.emit(selectedAuthor);
+    this.selectedAuthor.emit(this.authorSelect);
   }
 }

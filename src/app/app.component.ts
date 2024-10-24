@@ -17,14 +17,16 @@ export class AppComponent {
   selectedAuthor: string = '';
   selectedAuthorImages: ImageModel[] = [];
 
-  constructor(private appServ: AppService) {}
+  constructor(private appServ: AppService) {
+    this.initializeData();
+  }
 
-  async ngOnInit(): Promise<void> {
+  async initializeData(): Promise<void> {
     await this.appServ.loadImages();
     this.authors = this.appServ.getListOfAuthors();
   }
 
-  changeSelectedAuthor(author: string) {
+  onAuthorChange(author: string) {
     this.selectedAuthor = author;
     this.selectedAuthorImages = this.appServ.getImagesFromAuthor(
       this.selectedAuthor
